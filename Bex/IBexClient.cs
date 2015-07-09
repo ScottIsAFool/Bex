@@ -1,0 +1,132 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Bex.Model;
+using Bex.Model.Requests;
+using Bex.Model.Responses;
+
+namespace Bex
+{
+    public interface IBexClient
+    {
+        /// <summary>
+        /// Gets the client secret. This can be got from https://account.live.com/developers/applications
+        /// </summary>
+        string ClientSecret { get; }
+
+        /// <summary>
+        /// Gets the client identifier. This can be got from https://account.live.com/developers/applications
+        /// </summary>
+        string ClientId { get; }
+
+        /// <summary>
+        /// Gets the credentials.
+        /// </summary>
+        LiveIdCredentials Credentials { get; }
+
+        /// <summary>
+        /// Sets the credentials.
+        /// </summary>
+        /// <param name="credentials">The credentials.</param>
+        void SetCredentials(LiveIdCredentials credentials);
+
+        /// <summary>
+        /// Creates the authentication URL.
+        /// </summary>
+        /// <param name="scopes">The scopes.</param>
+        /// <returns></returns>
+        string CreateAuthenticationUrl(List<Scope> scopes);
+
+        /// <summary>
+        /// Creates the sign out URL.
+        /// </summary>
+        /// <returns></returns>
+        string CreateSignOutUrl();
+
+        /// <summary>
+        /// Exchanges the code.
+        /// </summary>
+        /// <param name="code">The code. If performing a refresh of the token, this should be the RefreshToken</param>
+        /// <param name="isTokenRefresh">if set to <c>true</c> [is token refresh].</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">code cannot be null or empty</exception>
+        Task<LiveIdCredentials> ExchangeCodeAsync(string code, bool isTokenRefresh = false, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the daily summary.
+        /// </summary>
+        /// <param name="startTime">The start time.</param>
+        /// <param name="endTime">The end time.</param>
+        /// <param name="deviceIds">The device ids.</param>
+        /// <param name="maxItemsToReturn">The maximum items to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        /// The daily summary for the specified dates
+        /// </returns>
+        Task<SummariesResponse> GetDailySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the summary for today.
+        /// </summary>
+        /// <param name="deviceIds">The device ids.</param>
+        /// <param name="maxItemsToReturn">The maximum items to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task<SummariesResponse> GetTodaysSummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the hourly summary.
+        /// </summary>
+        /// <param name="startTime">The start time.</param>
+        /// <param name="endTime">The end time.</param>
+        /// <param name="deviceIds">The device ids.</param>
+        /// <param name="maxItemsToReturn">The maximum items to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task<SummariesResponse> GetHourlySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the hourly summary for today.
+        /// </summary>
+        /// <param name="deviceIds">The device ids.</param>
+        /// <param name="maxItemsToReturn">The maximum items to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        /// The hourly summary for today
+        /// </returns>
+        Task<SummariesResponse> GetTodaysHourlySummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the profile.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The user's profile</returns>
+        Task<Profile> GetProfileAsync(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the devices.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A list of devices for the user</returns>
+        Task<List<Device>> GetDevicesAsync(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the device.
+        /// </summary>
+        /// <param name="deviceId">The device identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>Details about the specified device</returns>
+        /// <exception cref="ArgumentNullException">Device ID cannot be null or empty</exception>
+        Task<Device> GetDeviceAsync(string deviceId, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Gets the activities.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        Task<ActivitiesResponse> GetActivitiesAsync(ActivitiesRequest request = null, CancellationToken cancellationToken = default(CancellationToken));
+    }
+}

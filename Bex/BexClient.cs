@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace Bex
 {
-    public class BexClient
+    public class BexClient : IBexClient
     {
         private const string BaseHealthUri = "https://api.microsofthealth.net/v1/me/";
         private const string RedirectUri = "https://login.live.com/oauth20_desktop.srf";
@@ -121,7 +121,7 @@ namespace Bex
         }
 
         /// <summary>
-        /// Exchanges the code asynchronous.
+        /// Exchanges the code.
         /// </summary>
         /// <param name="code">The code. If performing a refresh of the token, this should be the RefreshToken</param>
         /// <param name="isTokenRefresh">if set to <c>true</c> [is token refresh].</param>
@@ -160,7 +160,7 @@ namespace Bex
         }
 
         /// <summary>
-        /// Gets the daily summary asynchronous.
+        /// Gets the daily summary.
         /// </summary>
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
@@ -188,7 +188,7 @@ namespace Bex
         }
 
         /// <summary>
-        /// Gets the hourly summary asynchronous.
+        /// Gets the hourly summary.
         /// </summary>
         /// <param name="startTime">The start time.</param>
         /// <param name="endTime">The end time.</param>
@@ -202,7 +202,7 @@ namespace Bex
         }
 
         /// <summary>
-        /// Gets the hourly summary for today asynchronous.
+        /// Gets the hourly summary for today.
         /// </summary>
         /// <param name="deviceIds">The device ids.</param>
         /// <param name="maxItemsToReturn">The maximum items to return.</param>
@@ -216,7 +216,7 @@ namespace Bex
         }
 
         /// <summary>
-        /// Gets the profile asynchronous.
+        /// Gets the profile.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The user's profile</returns>
@@ -230,7 +230,7 @@ namespace Bex
         }
 
         /// <summary>
-        /// Gets the devices asynchronous.
+        /// Gets the devices.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of devices for the user</returns>
@@ -244,7 +244,7 @@ namespace Bex
         }
 
         /// <summary>
-        /// Gets the device asynchronous.
+        /// Gets the device.
         /// </summary>
         /// <param name="deviceId">The device identifier.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
@@ -266,7 +266,7 @@ namespace Bex
         }
 
         /// <summary>
-        /// Gets the activities asynchronous.
+        /// Gets the activities.
         /// </summary>
         /// <param name="request">The request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>

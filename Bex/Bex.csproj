@@ -43,6 +43,7 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Helpers\BexHelper.cs" />
+    <Compile Include="IBexClient.cs" />
     <Compile Include="LiveIdCredentials.cs" />
     <Compile Include="Model\Device.cs" />
     <Compile Include="Model\Profile.cs" />
