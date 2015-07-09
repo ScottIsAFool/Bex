@@ -9,16 +9,12 @@ namespace Bex.Extensions
     {
         internal static IEnumerable<KeyValuePair<string, string>> QueryString(this Uri uri)
         {
-            var uriString = uri.IsAbsoluteUri ? uri.AbsoluteUri : uri.OriginalString;
-
-            var queryIndex = uriString.IndexOf("?", StringComparison.OrdinalIgnoreCase);
-
-            if (queryIndex == -1)
+            if (string.IsNullOrEmpty(uri.Query))
             {
                 return Enumerable.Empty<KeyValuePair<string, string>>();
             }
 
-            var query = uriString.Substring(queryIndex + 1);
+            var query = uri.Query.TrimStart('?');
 
             return query.Split('&')
                 .Where(x => !string.IsNullOrEmpty(x))
