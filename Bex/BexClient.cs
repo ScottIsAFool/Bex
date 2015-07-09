@@ -81,6 +81,9 @@ namespace Bex
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"bearer {Credentials.AccessToken}");
         }
 
+        /// <summary>
+        /// Clears the credentials.
+        /// </summary>
         public void ClearCredentials()
         {
             _httpClient.DefaultRequestHeaders.Remove("Authorization");
@@ -244,9 +247,9 @@ namespace Bex
         {
             await ValidateCredentials();
 
-            var response = await GetResponse<List<Device>>("Devices", new Dictionary<string, string>(), cancellationToken);
+            var response = await GetResponse<DevicesResponse>("Devices", new Dictionary<string, string>(), cancellationToken);
 
-            return response;
+            return response != null ? response.Devices : new List<Device>();
         }
 
         /// <summary>

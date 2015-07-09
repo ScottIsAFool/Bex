@@ -67,6 +67,7 @@
     <Compile Include="Model\MapPoint.cs" />
     <Compile Include="Model\MinuteSummary.cs" />
     <Compile Include="Model\PerformanceSummary.cs" />
+    <Compile Include="Model\Responses\DevicesResponse.cs" />
     <Compile Include="Model\Round.cs" />
     <Compile Include="Model\RunActivity.cs" />
     <Compile Include="Model\SleepActivity.cs" />
