@@ -6,6 +6,6 @@ namespace Bex.Model.Responses
     internal class DevicesResponse
     {
         [JsonProperty("deviceProfiles")]
-        public List<Device> Devices { get; set; }
+        public IEnumerable<Device> Devices { get; set; }
     }
 }

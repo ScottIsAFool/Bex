@@ -6,7 +6,7 @@ namespace Bex.Model.Responses
     public class SummariesResponse
     {
         [JsonProperty("summaries")]
-        public List<Summary> Summaries { get; set; }
+        public IEnumerable<Summary> Summaries { get; set; }
 
         [JsonProperty("nextPage")]
         public string NextPage { get; set; }

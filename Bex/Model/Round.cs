@@ -7,7 +7,7 @@ namespace Bex.Model
     public class Round
     {
         [JsonProperty("exercises")]
-        public List<Exercise> Exercises { get; set; }
+        public IEnumerable<Exercise> Exercises { get; set; }
 
         [JsonProperty("roundOrdinal")]
         public int RoundOrdinal { get; set; }

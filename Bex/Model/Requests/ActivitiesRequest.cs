@@ -6,10 +6,10 @@ namespace Bex.Model.Requests
 {
     public class ActivitiesRequest
     {
-        public List<string> ActivityIds { get; set; }
-        public List<string> ActivityTypes { get; set; }
-        public List<ActivityFields> ActivityFieldsToInclude { get; set; }
-        public List<string> DeviceIds { get; set; }
+        public IEnumerable<string> ActivityIds { get; set; }
+        public IEnumerable<string> ActivityTypes { get; set; }
+        public IEnumerable<ActivityFields> ActivityFieldsToInclude { get; set; }
+        public IEnumerable<string> DeviceIds { get; set; }
         public DateTime? StartTime { get; set; }
         public DateTime? EndTime { get; set; }
         public SplitDistanceType? SplitDistanceType { get; set; }

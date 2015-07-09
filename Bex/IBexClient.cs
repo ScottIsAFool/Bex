@@ -41,7 +41,7 @@ namespace Bex
         /// </summary>
         /// <param name="scopes">The scopes.</param>
         /// <returns></returns>
-        string CreateAuthenticationUrl(List<Scope> scopes);
+        string CreateAuthenticationUrl(IEnumerable<Scope> scopes);
 
         /// <summary>
         /// Creates the sign out URL.
@@ -70,7 +70,7 @@ namespace Bex
         /// <returns>
         /// The daily summary for the specified dates
         /// </returns>
-        Task<SummariesResponse> GetDailySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<SummariesResponse> GetDailySummaryAsync(DateTime startTime, DateTime endTime, IEnumerable<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets the summary for today.
@@ -79,7 +79,7 @@ namespace Bex
         /// <param name="maxItemsToReturn">The maximum items to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        Task<SummariesResponse> GetTodaysSummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<SummariesResponse> GetTodaysSummaryAsync(IEnumerable<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets the hourly summary.
@@ -90,7 +90,7 @@ namespace Bex
         /// <param name="maxItemsToReturn">The maximum items to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        Task<SummariesResponse> GetHourlySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<SummariesResponse> GetHourlySummaryAsync(DateTime startTime, DateTime endTime, IEnumerable<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets the hourly summary for today.
@@ -101,7 +101,7 @@ namespace Bex
         /// <returns>
         /// The hourly summary for today
         /// </returns>
-        Task<SummariesResponse> GetTodaysHourlySummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<SummariesResponse> GetTodaysHourlySummaryAsync(IEnumerable<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets the profile.
@@ -115,7 +115,7 @@ namespace Bex
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of devices for the user</returns>
-        Task<List<Device>> GetDevicesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<IEnumerable<Device>> GetDevicesAsync(CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Gets the device.
