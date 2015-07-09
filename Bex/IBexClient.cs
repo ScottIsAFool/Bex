@@ -32,6 +32,11 @@ namespace Bex
         void SetCredentials(LiveIdCredentials credentials);
 
         /// <summary>
+        /// Clears the credentials.
+        /// </summary>
+        void ClearCredentials();
+
+        /// <summary>
         /// Creates the authentication URL.
         /// </summary>
         /// <param name="scopes">The scopes.</param>

@@ -81,6 +81,12 @@ namespace Bex
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"bearer {Credentials.AccessToken}");
         }
 
+        public void ClearCredentials()
+        {
+            _httpClient.DefaultRequestHeaders.Remove("Authorization");
+            Credentials = null;
+        }
+
         /// <summary>
         /// Creates the authentication URL.
         /// </summary>
