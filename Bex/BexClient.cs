@@ -346,7 +346,7 @@ namespace Bex
         {
             if (string.IsNullOrEmpty(Credentials?.AccessToken))
             {
-                throw new BexException("NoCreds", "No valide credentials have been set");
+                throw new BexException("NoCreds", "No valid credentials have been set");
             }
 
             return Task.FromResult(true);
