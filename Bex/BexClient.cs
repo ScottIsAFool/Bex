@@ -175,11 +175,13 @@ namespace Bex
         /// <summary>
         /// Gets the summary for today.
         /// </summary>
+        /// <param name="deviceIds">The device ids.</param>
+        /// <param name="maxItemsToReturn">The maximum items to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        public Task<object> GetTodaysSummaryAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public Task<object> GetTodaysSummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetDailySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, cancellationToken);
+            return GetDailySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, deviceIds, maxItemsToReturn, cancellationToken);
         }
 
         /// <summary>
@@ -199,11 +201,15 @@ namespace Bex
         /// <summary>
         /// Gets the hourly summary for today asynchronous.
         /// </summary>
+        /// <param name="deviceIds">The device ids.</param>
+        /// <param name="maxItemsToReturn">The maximum items to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>The hourly summary for today</returns>
-        public Task<object> GetTodaysHourlySummaryAsync(CancellationToken cancellationToken = default(CancellationToken))
+        /// <returns>
+        /// The hourly summary for today
+        /// </returns>
+        public Task<object> GetTodaysHourlySummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetHourlySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, cancellationToken);
+            return GetHourlySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, deviceIds, maxItemsToReturn, cancellationToken);
         }
 
         /// <summary>
