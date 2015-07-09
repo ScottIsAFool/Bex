@@ -157,6 +157,56 @@ namespace Bex
         }
 
         /// <summary>
+        /// Gets the daily summary asynchronous.
+        /// </summary>
+        /// <param name="startTime">The start time.</param>
+        /// <param name="endTime">The end time.</param>
+        /// <param name="deviceIds">The device ids.</param>
+        /// <param name="maxItemsToReturn">The maximum items to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>
+        /// The daily summary for the specified dates
+        /// </returns>
+        public Task<object> GetDailySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return GetSummaryInfo(startTime, endTime, "Daily", deviceIds, maxItemsToReturn, cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the summary for today.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public Task<object> GetTodaysSummaryAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return GetDailySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the hourly summary asynchronous.
+        /// </summary>
+        /// <param name="startTime">The start time.</param>
+        /// <param name="endTime">The end time.</param>
+        /// <param name="deviceIds">The device ids.</param>
+        /// <param name="maxItemsToReturn">The maximum items to return.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public Task<object> GetHourlySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return GetSummaryInfo(startTime, endTime, "Hourly", deviceIds, maxItemsToReturn, cancellationToken);
+        }
+
+        /// <summary>
+        /// Gets the hourly summary for today asynchronous.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>The hourly summary for today</returns>
+        public Task<object> GetTodaysHourlySummaryAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return GetHourlySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, cancellationToken);
+        }
+
+        /// <summary>
         /// Gets the profile asynchronous.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
@@ -170,8 +220,91 @@ namespace Bex
             return response;
         }
 
-        private async Task<TReturnType> GetResponse<TReturnType>(string path, Dictionary<string, string> postData,
-            CancellationToken cancellationToken = default(CancellationToken), string altBaseUrl = null)
+        /// <summary>
+        /// Gets the devices asynchronous.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A list of devices for the user</returns>
+        public async Task<object> GetDevicesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await ValidateCredentials();
+
+            var response = await GetResponse<object>("Devices", new Dictionary<string, string>(), cancellationToken);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Gets the device asynchronous.
+        /// </summary>
+        /// <param name="deviceId">The device identifier.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>Details about the specified device</returns>
+        /// <exception cref="ArgumentNullException">Device ID cannot be null or empty</exception>
+        public async Task<object> GetDeviceAsync(string deviceId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                throw new ArgumentNullException(nameof(deviceId), "Device ID cannot be null or empty");
+            }
+
+            await ValidateCredentials();
+
+            var path = $"Devices/{deviceId}";
+            var response = await GetResponse<object>(path, new Dictionary<string, string>(), cancellationToken);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Gets the activities asynchronous.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<object> GetActivitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            await ValidateCredentials();
+
+            var response = await GetResponse<object>("Activities", new Dictionary<string, string>(), cancellationToken);
+
+            return response;
+        }
+
+        private async Task<object> GetSummaryInfo(DateTime startTime, DateTime endTime, string period, List<string> deviceIds, int? maxItemsToReturn, CancellationToken cancellationToken)
+        {
+            await ValidateCredentials();
+
+            var startTimeString = startTime.ToString("O");
+            var endtimeString = endTime.ToString("O");
+
+            var postData = new Dictionary<string, string>
+            {
+                { "startTime", startTimeString },
+                { "endTime", endtimeString }
+            };
+
+            if (deviceIds != null)
+            {
+                if (deviceIds.Count > 1)
+                {
+                    throw new BexException("TooManyDevices", "The preview currently only supports one device.");
+                }
+
+                var devices = string.Join(",", deviceIds);
+                postData.Add("deviceIds", devices);
+            }
+
+            if (maxItemsToReturn.HasValue)
+            {
+                postData.Add("maxPageSize", maxItemsToReturn.Value.ToString());
+            }
+
+            var path = $"Summaries/{period}";
+
+            return await GetResponse<object>(path, postData, cancellationToken);
+        }
+
+        private async Task<TReturnType> GetResponse<TReturnType>(string path, Dictionary<string, string> postData, CancellationToken cancellationToken = default(CancellationToken), string altBaseUrl = null)
         {
             var uri = new UriBuilder(altBaseUrl ?? BaseHealthUri);
             uri.Path += path;
