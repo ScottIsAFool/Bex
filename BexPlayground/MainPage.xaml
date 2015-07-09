@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="BexPlayground.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BexPlayground"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel>
+            <Button Tapped="UIElement_OnTapped"
+                Content="Sign in"/>
+
+            <Button Content="Get Profile"
+                x:Name="ProfileButton"
+                Tapped="ProfileButton_Tapped"/>
+            
+            <Button x:Name="Devices"
+                    Content="Get Devices"
+                    Tapped="DevicesButton_Tapped"></Button>
+        </StackPanel>
+    </Grid>
+</Page>
