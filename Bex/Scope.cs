@@ -12,5 +12,8 @@ namespace Bex
 
         [Description("mshealth.ReadActivityLocation")]
         ActivityLocation,
+
+        [Description("mshealth.ReadProfile")]
+        Profile
     }
 }
