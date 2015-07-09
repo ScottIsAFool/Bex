@@ -10,7 +10,7 @@ namespace Bex.Model
         public string ActivityType { get; set; }
 
         [JsonProperty("activitySegments")]
-        public List<ActivitySegment> ActivitySegments { get; set; }
+        public IEnumerable<ActivitySegment> ActivitySegments { get; set; }
 
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -43,7 +43,7 @@ namespace Bex.Model
         public string Duration { get; set; }
 
         [JsonProperty("minuteSummaries")]
-        public List<MinuteSummary> MinuteSummaries { get; set; }
+        public IEnumerable<MinuteSummary> MinuteSummaries { get; set; }
 
         [JsonProperty("caloriesBurnedSummary")]
         public CaloriesBurnedSummary CaloriesBurnedSummary { get; set; }

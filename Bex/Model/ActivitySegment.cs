@@ -10,7 +10,7 @@ namespace Bex.Model
         public DistanceSummary DistanceSummary { get; set; }
 
         [JsonProperty("rounds")]
-        public List<Round> Rounds { get; set; }
+        public IEnumerable<Round> Rounds { get; set; }
 
         [JsonProperty("pausedDuration")]
         public string PausedDuration { get; set; }

@@ -21,6 +21,6 @@ namespace Bex.Model
         public int LongestStrokeDistance { get; set; }
 
         [JsonProperty("childActivities")]
-        public List<ChildActivity> ChildActivities { get; set; }
+        public IEnumerable<ChildActivity> ChildActivities { get; set; }
     }
 }

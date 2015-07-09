@@ -95,7 +95,7 @@ namespace Bex
         /// </summary>
         /// <param name="scopes">The scopes.</param>
         /// <returns></returns>
-        public string CreateAuthenticationUrl(List<Scope> scopes)
+        public string CreateAuthenticationUrl(IEnumerable<Scope> scopes)
         {
             var uriBuilder = new UriBuilder(AuthUrl);
             var query = new StringBuilder();
@@ -179,7 +179,7 @@ namespace Bex
         /// <returns>
         /// The daily summary for the specified dates
         /// </returns>
-        public Task<SummariesResponse> GetDailySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<SummariesResponse> GetDailySummaryAsync(DateTime startTime, DateTime endTime, IEnumerable<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return GetSummaryInfo(startTime, endTime, "Daily", deviceIds, maxItemsToReturn, cancellationToken);
         }
@@ -191,7 +191,7 @@ namespace Bex
         /// <param name="maxItemsToReturn">The maximum items to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        public Task<SummariesResponse> GetTodaysSummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<SummariesResponse> GetTodaysSummaryAsync(IEnumerable<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return GetDailySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, deviceIds, maxItemsToReturn, cancellationToken);
         }
@@ -205,7 +205,7 @@ namespace Bex
         /// <param name="maxItemsToReturn">The maximum items to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        public Task<SummariesResponse> GetHourlySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<SummariesResponse> GetHourlySummaryAsync(DateTime startTime, DateTime endTime, IEnumerable<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return GetSummaryInfo(startTime, endTime, "Hourly", deviceIds, maxItemsToReturn, cancellationToken);
         }
@@ -219,7 +219,7 @@ namespace Bex
         /// <returns>
         /// The hourly summary for today
         /// </returns>
-        public Task<SummariesResponse> GetTodaysHourlySummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<SummariesResponse> GetTodaysHourlySummaryAsync(IEnumerable<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return GetHourlySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, deviceIds, maxItemsToReturn, cancellationToken);
         }
@@ -243,7 +243,7 @@ namespace Bex
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of devices for the user</returns>
-        public async Task<List<Device>> GetDevicesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<IEnumerable<Device>> GetDevicesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             await ValidateCredentials();
 
@@ -291,7 +291,7 @@ namespace Bex
             return response;
         }
 
-        private async Task<SummariesResponse> GetSummaryInfo(DateTime startTime, DateTime endTime, string period, List<string> deviceIds, int? maxItemsToReturn, CancellationToken cancellationToken)
+        private async Task<SummariesResponse> GetSummaryInfo(DateTime startTime, DateTime endTime, string period, IEnumerable<string> deviceIds, int? maxItemsToReturn, CancellationToken cancellationToken)
         {
             await ValidateCredentials();
 
