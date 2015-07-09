@@ -17,8 +17,8 @@ namespace Bex
 {
     public class BexClient : IBexClient
     {
+        public const string RedirectUri = "https://login.live.com/oauth20_desktop.srf";
         private const string BaseHealthUri = "https://api.microsofthealth.net/v1/me/";
-        private const string RedirectUri = "https://login.live.com/oauth20_desktop.srf";
         private const string AuthUrl = "https://login.live.com/oauth20_authorize.srf";
         private const string SignOutUrl = "https://login.live.com/oauth20_logout.srf";
         private const string TokenUrl = "https://login.live.com/oauth20_token.srf";
@@ -326,7 +326,7 @@ namespace Bex
 
             var response = await _httpClient.GetAsync(uri.Uri, cancellationToken);
 
-            response.EnsureSuccessStatusCode();
+            //response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
             var item = JsonConvert.DeserializeObject<TReturnType>(responseString);
