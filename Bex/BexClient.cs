@@ -8,6 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Bex.Exceptions;
 using Bex.Extensions;
+using Bex.Model;
+using Bex.Model.Requests;
+using Bex.Model.Responses;
 using Newtonsoft.Json;
 
 namespace Bex
@@ -167,7 +170,7 @@ namespace Bex
         /// <returns>
         /// The daily summary for the specified dates
         /// </returns>
-        public Task<object> GetDailySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<SummariesResponse> GetDailySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return GetSummaryInfo(startTime, endTime, "Daily", deviceIds, maxItemsToReturn, cancellationToken);
         }
@@ -179,7 +182,7 @@ namespace Bex
         /// <param name="maxItemsToReturn">The maximum items to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        public Task<object> GetTodaysSummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<SummariesResponse> GetTodaysSummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return GetDailySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, deviceIds, maxItemsToReturn, cancellationToken);
         }
@@ -193,7 +196,7 @@ namespace Bex
         /// <param name="maxItemsToReturn">The maximum items to return.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        public Task<object> GetHourlySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<SummariesResponse> GetHourlySummaryAsync(DateTime startTime, DateTime endTime, List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return GetSummaryInfo(startTime, endTime, "Hourly", deviceIds, maxItemsToReturn, cancellationToken);
         }
@@ -207,7 +210,7 @@ namespace Bex
         /// <returns>
         /// The hourly summary for today
         /// </returns>
-        public Task<object> GetTodaysHourlySummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<SummariesResponse> GetTodaysHourlySummaryAsync(List<string> deviceIds = null, int? maxItemsToReturn = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             return GetHourlySummaryAsync(DateTime.UtcNow.AddDays(-1), DateTime.UtcNow, deviceIds, maxItemsToReturn, cancellationToken);
         }
@@ -217,11 +220,11 @@ namespace Bex
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The user's profile</returns>
-        public async Task<object> GetProfileAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Profile> GetProfileAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             await ValidateCredentials();
 
-            var response = await GetResponse<object>("Profile", new Dictionary<string, string>(), cancellationToken);
+            var response = await GetResponse<Profile>("Profile", new Dictionary<string, string>(), cancellationToken);
 
             return response;
         }
@@ -231,11 +234,11 @@ namespace Bex
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A list of devices for the user</returns>
-        public async Task<object> GetDevicesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<List<Device>> GetDevicesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             await ValidateCredentials();
 
-            var response = await GetResponse<object>("Devices", new Dictionary<string, string>(), cancellationToken);
+            var response = await GetResponse<List<Device>>("Devices", new Dictionary<string, string>(), cancellationToken);
 
             return response;
         }
@@ -247,7 +250,7 @@ namespace Bex
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>Details about the specified device</returns>
         /// <exception cref="ArgumentNullException">Device ID cannot be null or empty</exception>
-        public async Task<object> GetDeviceAsync(string deviceId, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Device> GetDeviceAsync(string deviceId, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (string.IsNullOrEmpty(deviceId))
             {
@@ -257,7 +260,7 @@ namespace Bex
             await ValidateCredentials();
 
             var path = $"Devices/{deviceId}";
-            var response = await GetResponse<object>(path, new Dictionary<string, string>(), cancellationToken);
+            var response = await GetResponse<Device>(path, new Dictionary<string, string>(), cancellationToken);
 
             return response;
         }
@@ -265,18 +268,21 @@ namespace Bex
         /// <summary>
         /// Gets the activities asynchronous.
         /// </summary>
+        /// <param name="request">The request.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns></returns>
-        public async Task<object> GetActivitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<ActivitiesResponse> GetActivitiesAsync(ActivitiesRequest request = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             await ValidateCredentials();
 
-            var response = await GetResponse<object>("Activities", new Dictionary<string, string>(), cancellationToken);
+            var postData = request != null ? request.ToDictionary() : new Dictionary<string, string>();
+
+            var response = await GetResponse<ActivitiesResponse>("Activities", postData, cancellationToken);
 
             return response;
         }
 
-        private async Task<object> GetSummaryInfo(DateTime startTime, DateTime endTime, string period, List<string> deviceIds, int? maxItemsToReturn, CancellationToken cancellationToken)
+        private async Task<SummariesResponse> GetSummaryInfo(DateTime startTime, DateTime endTime, string period, List<string> deviceIds, int? maxItemsToReturn, CancellationToken cancellationToken)
         {
             await ValidateCredentials();
 
@@ -307,7 +313,7 @@ namespace Bex
 
             var path = $"Summaries/{period}";
 
-            return await GetResponse<object>(path, postData, cancellationToken);
+            return await GetResponse<SummariesResponse>(path, postData, cancellationToken);
         }
 
         private async Task<TReturnType> GetResponse<TReturnType>(string path, Dictionary<string, string> postData, CancellationToken cancellationToken = default(CancellationToken), string altBaseUrl = null)
