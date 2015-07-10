@@ -40,8 +40,9 @@ namespace Bex
         /// Creates the authentication URL.
         /// </summary>
         /// <param name="scopes">The scopes.</param>
+        /// <param name="redirectUrl">This is optional. If using a WebAuthenticationBroker, don't set this, if you're using a website, you may want to set it</param>
         /// <returns></returns>
-        string CreateAuthenticationUrl(IEnumerable<Scope> scopes);
+        string CreateAuthenticationUrl(IEnumerable<Scope> scopes, string redirectUrl = null);
 
         /// <summary>
         /// Creates the sign out URL.
