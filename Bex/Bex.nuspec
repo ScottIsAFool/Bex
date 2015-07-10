@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <version>$version$-beta</version>
+    <authors>ScottIsAFool</authors>
+    <owners />
+    <id>Bex</id>
+    <title />
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Bex is a PCL library that gives easier access to the MS Health APIs</description>
+    <projectUrl>https://github.com/ScottIsAFool/Bex</projectUrl>
+  </metadata>
+  <files />
+</package>
