@@ -336,7 +336,7 @@ namespace Bex
 
             var response = await _httpClient.GetAsync(uri.Uri, cancellationToken);
 
-            //response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
             var item = JsonConvert.DeserializeObject<TReturnType>(responseString);
