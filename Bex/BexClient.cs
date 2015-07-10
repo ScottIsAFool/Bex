@@ -306,7 +306,7 @@ namespace Bex
 
             if (deviceIds != null)
             {
-                if (deviceIds.Count > 1)
+                if (deviceIds.Count() > 1)
                 {
                     throw new BexException("TooManyDevices", "The preview currently only supports one device.");
                 }

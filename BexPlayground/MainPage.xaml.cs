@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation.Collections;
 using Windows.Security.Authentication.Web;
 using Windows.Storage;
@@ -84,7 +85,7 @@ namespace BexPlayground
             var devices = await App.BexClient.GetDevicesAsync();
             if (devices != null)
             {
-                var dialog = new MessageDialog($"User has {devices.Count} Devices");
+                var dialog = new MessageDialog($"User has {devices.Count()} Devices");
                 await dialog.ShowAsync();
             }
         }
