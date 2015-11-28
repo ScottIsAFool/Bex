@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using Bex;
+using Bex.Model.Requests;
 using Newtonsoft.Json;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
@@ -87,6 +88,26 @@ namespace BexPlayground
             {
                 var dialog = new MessageDialog($"User has {devices.Count()} Devices");
                 await dialog.ShowAsync();
+            }
+        }
+
+        private async void ActivitiesButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var activities = await App.BexClient.GetActivitiesAsync(new ActivitiesRequest
+            {
+                ActivityFieldsToInclude = new List<ActivityFields>
+                {
+                    ActivityFields.Details,
+                    ActivityFields.MapPoints
+                },
+                EndTime = new DateTime(2015, 09, 01),
+                StartTime = new DateTime(2015, 03, 01)
+            });
+
+            if (activities != null)
+            {
+                //var dialog = new MessageDialog($"User has {activities.Count()} Devices");
+                //await dialog.ShowAsync();
             }
         }
     }

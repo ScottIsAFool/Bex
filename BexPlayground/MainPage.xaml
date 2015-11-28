@@ -19,7 +19,11 @@
             
             <Button x:Name="Devices"
                     Content="Get Devices"
-                    Tapped="DevicesButton_Tapped"></Button>
+                    Tapped="DevicesButton_Tapped"/>
+            
+            <Button x:Name="Activities"
+                    Content="Get Activities"
+                    Tapped="ActivitiesButton_Tapped"/>
         </StackPanel>
     </Grid>
 </Page>

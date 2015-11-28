@@ -13,7 +13,7 @@ namespace Bex.Model
         public int RoundOrdinal { get; set; }
 
         [JsonProperty("segmentId")]
-        public int SegmentId { get; set; }
+        public long SegmentId { get; set; }
 
         [JsonProperty("startTime")]
         public DateTime? StartTime { get; set; }
