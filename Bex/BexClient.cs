@@ -381,13 +381,14 @@ namespace Bex
         {
             try
             {
-                HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.GetAsync(CreateSignOutUrl());
+                HttpClient client = new HttpClient( );
+                HttpResponseMessage response = await client.GetAsync( CreateSignOutUrl( ) );
                 ClearCredentials();
                 return response.IsSuccessStatusCode;
             }
             catch
             {
+                ClearCredentials();
                 return false;
             }
         }
