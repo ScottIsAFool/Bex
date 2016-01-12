@@ -15,6 +15,8 @@ using Newtonsoft.Json;
 
 namespace Bex
 {
+    using Helpers;
+
     public class BexClient : IBexClient
     {
         public const string RedirectUri = "https://login.live.com/oauth20_desktop.srf";
@@ -351,6 +353,44 @@ namespace Bex
             }
 
             return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Refreshes the access code using the refresh token held within the current credentials.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>Credentials with a refreshed access code.</returns>
+        public async Task<LiveIdCredentials> RefreshAccessCodeFromCredentialsAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (string.IsNullOrEmpty(Credentials?.RefreshToken))
+            {
+                throw new BexException("NoCreds", "No valid credentials have been set");
+            }
+
+            var credentials =
+                await ExchangeCodeAsync(Credentials.RefreshToken, isTokenRefresh: true, cancellationToken: cancellationToken);
+            SetCredentials(credentials);
+
+            return credentials;
+        }
+
+        /// <summary>
+        /// Signs out from Microsoft Health.
+        /// </summary>
+        /// <returns>Whether the logout HTTP request returned a success status code.</returns>
+        public async Task<bool> SignOutAsync()
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                HttpResponseMessage response = await client.GetAsync(CreateSignOutUrl());
+                ClearCredentials();
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

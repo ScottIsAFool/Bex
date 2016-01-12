@@ -17,6 +17,8 @@ using Newtonsoft.Json;
 
 namespace BexPlayground
 {
+    using Extensions;
+
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
@@ -115,24 +117,15 @@ namespace BexPlayground
                 var brokerArgs = args as IWebAuthenticationBrokerContinuationEventArgs;
                 if (brokerArgs?.WebAuthenticationResult.ResponseStatus == WebAuthenticationStatus.Success)
                 {
-                    var url = new Uri(brokerArgs.WebAuthenticationResult.ResponseData);
-                    if (BexHelper.IsValidReturnUrl(url))
+                    var url = new Uri( brokerArgs.WebAuthenticationResult.ResponseData );
+                    if (BexHelper.IsValidReturnUrl( url ))
                     {
-                        var code = BexHelper.ExtractCode(url);
+                        var code = BexHelper.ExtractCode( url );
 
-                        var creds = await BexClient.ExchangeCodeAsync(code);
+                        var creds = await BexClient.ExchangeCodeAsync( code );
 
-                        var data = ApplicationData.Current.LocalSettings;
-                        if (data.Containers.ContainsKey("Credentials"))
-                        {
-                            var container = data.Containers["Credentials"];
-                            container.Values["Credentials"] = JsonConvert.SerializeObject(creds);
-                        }
-                        else
-                        {
-                            var container = data.CreateContainer("Credentials", ApplicationDataCreateDisposition.Always);
-                            container.Values["Credentials"] = JsonConvert.SerializeObject(creds);
-                        }
+                        BexClient.SaveCredentialsToStorage( );
+
                     }
                 }
             }
