@@ -15,7 +15,6 @@ using Newtonsoft.Json;
 
 namespace Bex
 {
-    using Helpers;
 
     public class BexClient : IBexClient
     {

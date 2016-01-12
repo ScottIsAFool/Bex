@@ -4,20 +4,18 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Globalization;
 using Windows.Security.Authentication.Web;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Bex;
 using Bex.Helpers;
-using Newtonsoft.Json;
+using BexPlayground.Extensions;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace BexPlayground
 {
-    using Extensions;
 
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
