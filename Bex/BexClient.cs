@@ -98,19 +98,31 @@ namespace Bex
         /// <returns></returns>
         public string CreateAuthenticationUrl(IEnumerable<Scope> scopes, string redirectUrl = null)
         {
+            return this.CreateAuthenticationUrl(scopes.Select(x => x.GetDescription()));
+        }
+
+        /// <summary>
+        /// Creates the authentication URL.
+        /// </summary>
+        /// <param name="scopes">The scopes as their string representations. Allows for adding additional scopes not exposed through the <see cref="Scope"/> enum.</param>
+        /// <param name="redirectUrl">This is optional. If using a WebAuthenticationBroker, don't set this, if you're using a website, you may want to set it</param>
+        /// <returns></returns>
+        public string CreateAuthenticationUrl(IEnumerable<string> scopes, string redirectUrl = null)
+        {
             var uriBuilder = new UriBuilder(AuthUrl);
             var query = new StringBuilder();
 
             query.AppendFormat("redirect_uri={0}", Uri.EscapeUriString(redirectUrl ?? RedirectUri));
             query.AppendFormat("&client_id={0}", Uri.EscapeUriString(ClientId));
 
-            var scopesString = string.Join(" ", scopes.Select(x => x.GetDescription()));
+            var scopesString = string.Join(" ", scopes);
             query.AppendFormat("&scope={0}", Uri.EscapeUriString(scopesString));
             query.Append("&response_type=code");
 
             uriBuilder.Query = query.ToString();
 
             return uriBuilder.Uri.ToString();
+
         }
 
         /// <summary>

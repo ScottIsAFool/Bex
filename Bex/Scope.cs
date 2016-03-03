@@ -14,9 +14,6 @@ namespace Bex
         ActivityLocation,
 
         [Description("mshealth.ReadProfile")]
-        Profile,
-
-        [Description("wl.offline_access")]
-        Offline
+        Profile
     }
 }
