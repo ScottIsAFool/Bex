@@ -21,7 +21,7 @@ namespace Bex
         /// that can be used to get new access tokens when the supplied
         /// one expires. 
         /// </summary>
-        [Description("offline_access")]
+        [Description("wl.offline_access")]
         OfflineAccess
     }
 }
