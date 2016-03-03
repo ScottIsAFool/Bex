@@ -8,4 +8,4 @@ Install from Nuget https://www.nuget.org/packages/Bex/
 
 ## Updates
 #### [James Croft](https://github.com/jamesmcroft)
-3/3/2016 - Added Offline scope to return a refresh token as part of the authentication process.
+3/3/2016 - Added support to extend the creation of a URL with more scopes as their string representation
