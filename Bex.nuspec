@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
+    <metadata>
+        <id>Bex</id>
+        <version>0.2.0.1-beta</version>
+        <authors>ScottIsAFool</authors>
+        <owners>ScottIsAFool</owners>
+        <projectUrl>https://github.com/ScottIsAFool/Bex</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Bex is a PCL library that gives easier access to the MS Health APIs</description>
+        <dependencies>
+            <dependency id="Microsoft.Net.Http" version="2.2.29" />
+            <dependency id="Newtonsoft.Json" version="6.0.8" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="Bex\bin\Release\Bex.dll" target="lib\portable-net45+win+WindowsPhoneApp81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\Bex.dll" />
+    </files>
+</package>
