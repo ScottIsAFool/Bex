@@ -45,6 +45,14 @@ namespace Bex
         string CreateAuthenticationUrl(IEnumerable<Scope> scopes, string redirectUrl = null);
 
         /// <summary>
+        /// Refreshes the access code using the refresh token held within the current credentials.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>Credentials with a refreshed access code.</returns>
+        Task<LiveIdCredentials> RefreshAccessCodeFromCredentialsAsync(
+            CancellationToken cancellationToken = default(CancellationToken) );
+
+        /// <summary>
         /// Creates the authentication URL.
         /// </summary>
         /// <param name="scopes">The scopes as their string representations.</param>
@@ -57,6 +65,12 @@ namespace Bex
         /// </summary>
         /// <returns></returns>
         string CreateSignOutUrl();
+
+        /// <summary>
+        /// Signs out from Microsoft Health.
+        /// </summary>
+        /// <returns>Whether the signout HTTP request returned a success status code.</returns>
+        Task<bool> SignOutAsync();
 
         /// <summary>
         /// Exchanges the code.
