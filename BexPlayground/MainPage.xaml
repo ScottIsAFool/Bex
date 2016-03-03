@@ -10,6 +10,11 @@
 
     <Grid>
         <StackPanel>
+            
+            <CheckBox 
+                x:Name="RequestOfflineAccess"
+                Content="Request offline access" />
+            
             <Button Tapped="UIElement_OnTapped"
                 Content="Sign in"/>
 
@@ -24,6 +29,10 @@
             <Button x:Name="Activities"
                     Content="Get Activities"
                     Tapped="ActivitiesButton_Tapped"/>
+
+            <Button Tapped="SignOut_Tapped"
+                Content="Sign out"/>
+
         </StackPanel>
     </Grid>
 </Page>

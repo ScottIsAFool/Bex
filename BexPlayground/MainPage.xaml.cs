@@ -11,11 +11,13 @@ using Windows.UI.Xaml.Navigation;
 using Bex;
 using Bex.Model.Requests;
 using Newtonsoft.Json;
+using BexPlayground.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace BexPlayground
 {
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -26,6 +28,21 @@ namespace BexPlayground
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
+
+            this.Loaded += MainPage_Loaded;
+        }
+
+        private async void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            // Load the credentials from storage.
+            App.BexClient.LoadCredentialsFromStorage();
+
+            // Refresh the access token, if we have a refresh token.
+            if (false == string.IsNullOrWhiteSpace(App.BexClient.Credentials?.RefreshToken))
+            {
+                // Awaiting this call may be slow; perhaps move out of onactivated.
+                await App.BexClient.RefreshAccessCodeFromCredentialsAsync();
+            }
         }
 
         /// <summary>
@@ -60,13 +77,21 @@ namespace BexPlayground
                 return;
             }
 
-            var url = App.BexClient.CreateAuthenticationUrl(new List<Scope>
+            var scopes = new List<Scope>
             {
                 Scope.ActivityHistory,
                 Scope.ActivityLocation,
                 Scope.Devices,
                 Scope.Profile
-            });
+            };
+
+            // Request offline access?
+            if (RequestOfflineAccess.IsChecked.HasValue && RequestOfflineAccess.IsChecked.Value)
+            {
+                scopes.Add(Scope.OfflineAccess);
+            }
+
+            var url = App.BexClient.CreateAuthenticationUrl(scopes);
 
             WebAuthenticationBroker.AuthenticateAndContinue(new Uri(url), new Uri(BexClient.RedirectUri), new ValueSet(), WebAuthenticationOptions.None);
         }
@@ -109,6 +134,11 @@ namespace BexPlayground
                 //var dialog = new MessageDialog($"User has {activities.Count()} Devices");
                 //await dialog.ShowAsync();
             }
+        }
+
+        private async void SignOut_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            await App.BexClient.SignOutAsync( );
         }
     }
 }
